@@ -3,21 +3,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id         Int                @id @default(autoincrement())
-  email      String             @unique
-  first_name String
-  last_name  String
-  social     Json?
-  courses    CourseEnrollment[]
-  TestResult TestResult[]       @relation("results")
+  id          Int                @id @default(autoincrement())
+  email       String             @unique
+  first_name  String
+  last_name   String
+  social      Json?
+  // relations
+  courses     CourseEnrollment[]
+  testResults TestResult[]       @relation(name: "results")
+  testsGraded TestResult[]       @relation(name: "graded")
 }
 
 model Course {
   id            Int                @id @default(autoincrement())
   name          String
-  courseDetails String
+  courseDetails String?
   members       CourseEnrollment[]
+  tests         Test[]
 }
 
 model Test {
@@ -25,19 +32,21 @@ model Test {
   updatedtAt  DateTime     @updatedAt
   name        String
   date        DateTime
+  // relations
   courseId    Int
+  course      Course       @relation(fields: [courseId], references: [id])
   testResults TestResult[]
-  TestResult  TestResult[] @relation("graded")
 }
 
 model TestResult {
   id         Int      @id @default(autoincrement())
   updatedtAt DateTime @updatedAt
   result     Int
+  // relations
   studentId  Int
   student    User     @relation(name: "results", fields: [studentId], references: [id])
   graderId   Int
-  gradedBy   Test     @relation(name: "graded", fields: [graderId], references: [id])
+  gradedBy   User     @relation(name: "graded", fields: [graderId], references: [id])
   testId     Int
   test       Test     @relation(fields: [testId], references: [id])
 }
@@ -49,7 +58,7 @@ enum UserRole {
 
 model CourseEnrollment {
   createdAt DateTime @default(now())
-  role      UserRole // Relation Fields+  
+  role      UserRole
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   courseId  Int
