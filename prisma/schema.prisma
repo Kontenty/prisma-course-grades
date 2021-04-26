@@ -3,18 +3,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TODO: define fields and relations
 model User {
+  id         Int                @id @default(autoincrement())
+  email      String             @unique
+  first_name String
+  last_name  String
+  social     Json?
+  courses    CourseEnrollment[]
+  TestResult TestResult[]       @relation("results")
 }
 
-// TODO: define fields and relations
 model Course {
+  id            Int                @id @default(autoincrement())
+  name          String
+  courseDetails String
+  members       CourseEnrollment[]
 }
 
-// TODO: define fields and relations
 model Test {
+  id          Int          @id @default(autoincrement())
+  updatedtAt  DateTime     @updatedAt
+  name        String
+  date        DateTime
+  courseId    Int
+  testResults TestResult[]
+  TestResult  TestResult[] @relation("graded")
 }
 
-// TODO: define fields and relations
 model TestResult {
+  id         Int      @id @default(autoincrement())
+  updatedtAt DateTime @updatedAt
+  result     Int
+  studentId  Int
+  student    User     @relation(name: "results", fields: [studentId], references: [id])
+  graderId   Int
+  gradedBy   Test     @relation(name: "graded", fields: [graderId], references: [id])
+  testId     Int
+  test       Test     @relation(fields: [testId], references: [id])
+}
+
+enum UserRole {
+  STUDENT
+  TEACHER
+}
+
+model CourseEnrollment {
+  createdAt DateTime @default(now())
+  role      UserRole // Relation Fields+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  courseId  Int
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@id([userId, courseId])
+  @@index([userId, role])
 }
