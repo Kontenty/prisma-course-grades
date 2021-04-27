@@ -1,6 +1,6 @@
 import Hapi from '@hapi/hapi'
 
-const plugin: Hapi.Plugin<undefined> = {
+const statusPlugin: Hapi.Plugin<undefined> = {
   name: 'app/status',
   register: async function (server: Hapi.Server) {
     server.route({
@@ -13,4 +13,4 @@ const plugin: Hapi.Plugin<undefined> = {
   },
 }
 
-export default plugin
+export default statusPlugin
