@@ -23,7 +23,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn ./src/index.ts",
-    "seed": "ts-node ./src/seed.ts",
+    "seed": "ts-node ./prisma/seed.ts",
     "test": "jest",
     "postgres:start": "docker-compose up -d",
     "migrate:save": "prisma migrate --experimental save",

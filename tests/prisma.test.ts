@@ -9,7 +9,7 @@ describe('example test with Prisma Client', () => {
   afterAll(async () => {
     await prisma.$disconnect()
   })
-  test('test query', async () => {
+  test('prisma user query', async () => {
     const data = await prisma.user.findMany({ take: 1, select: { id: true } })
     expect(data).toBeTruthy()
   })
