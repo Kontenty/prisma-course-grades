@@ -1,6 +1,6 @@
 import Hapi from '@hapi/hapi'
 
-import { userController } from './controllers'
+import * as controller from './controllers'
 import * as vld from './validators'
 
 const routes: Hapi.ServerRoute[] = [
@@ -14,7 +14,7 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'POST',
     path: '/users',
-    handler: userController.createUserHandler,
+    handler: controller.createUserHandler,
     options: {
       validate: {
         payload: vld.createUserValidator,
@@ -24,7 +24,7 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'PUT',
     path: '/user/{userId}',
-    handler: userController.updateUserHandler,
+    handler: controller.updateUserHandler,
     options: {
       validate: {
         payload: vld.updateUserValidator,
@@ -35,12 +35,12 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'GET',
     path: '/users',
-    handler: userController.getUsersHandler,
+    handler: controller.getUsersHandler,
   },
   {
     method: 'GET',
     path: '/user/{userId}',
-    handler: userController.getUserHandler,
+    handler: controller.getUserHandler,
     options: {
       validate: {
         params: vld.userIdValidator,
@@ -50,11 +50,20 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'DELETE',
     path: '/user/{userId}',
-    handler: userController.deleteUserHandler,
+    handler: controller.deleteUserHandler,
     options: {
       validate: {
         params: vld.userIdValidator,
       },
+    },
+  },
+  {
+    method: 'POST',
+    path: '/login',
+    handler: controller.loginHandler,
+    options: {
+      auth: false,
+      validate: { payload: vld.emailValidator },
     },
   },
 ]

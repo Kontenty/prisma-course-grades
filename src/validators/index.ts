@@ -27,3 +27,5 @@ export const createUserValidator = userInputValidator.tailor('create')
 export const updateUserValidator = userInputValidator.tailor('update')
 
 export const userIdValidator = Joi.object({ userId: Joi.number().integer() })
+
+export const emailValidator = Joi.object({ email: Joi.string().email().required() })
