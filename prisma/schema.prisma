@@ -10,19 +10,39 @@ generator client {
 model User {
   id          Int                @id @default(autoincrement())
   email       String             @unique
-  first_name  String
-  last_name   String
+  first_name  String?
+  last_name   String?
   social      Json?
   // relations
   courses     CourseEnrollment[]
   testResults TestResult[]       @relation(name: "results")
   testsGraded TestResult[]       @relation(name: "graded")
+  tokens      Token[]
+}
+
+model Token {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedtAt DateTime  @updatedAt
+  type       TokenType
+  emailToken String?   @unique
+  valid      Boolean   @default(true)
+  expiration DateTime
+  // relations
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+}
+
+enum TokenType {
+  EMAIL
+  API
 }
 
 model Course {
   id            Int                @id @default(autoincrement())
   name          String
   courseDetails String?
+  // relation
   members       CourseEnrollment[]
   tests         Test[]
 }
@@ -60,6 +80,7 @@ model CourseEnrollment {
   createdAt DateTime @default(now())
   role      UserRole
   userId    Int
+  // relation
   user      User     @relation(fields: [userId], references: [id])
   courseId  Int
   course    Course   @relation(fields: [courseId], references: [id])
