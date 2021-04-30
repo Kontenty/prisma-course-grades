@@ -15,6 +15,7 @@ const userInputValidator = Joi.object({
       create: (schema) => schema.required(),
       update: (schema) => schema.optional(),
     }),
+  isAdmin: Joi.boolean().optional(),
   social: Joi.object({
     facebook: Joi.string().optional(),
     twitter: Joi.string().optional(),

@@ -12,14 +12,16 @@ async function main() {
   await prisma.testResult.deleteMany({})
   await prisma.courseEnrollment.deleteMany({})
   await prisma.test.deleteMany({})
-  await prisma.user.deleteMany({})
   await prisma.course.deleteMany({})
+  await prisma.token.deleteMany({})
+  await prisma.user.deleteMany({})
   const grace = await prisma.user.create({
     data: {
       email: 'grace@hey.com',
       first_name: 'Grace',
       last_name: 'Bell',
       social: { facebook: 'gracebell', twitter: 'therealgracebell' },
+      isAdmin: true,
     },
   })
   const course = await prisma.course.create({

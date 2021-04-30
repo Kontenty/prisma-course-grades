@@ -3,14 +3,9 @@ import Boom from '@hapi/boom'
 import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
 import { add } from 'date-fns'
-import { config } from 'dotenv'
-import { TokenType } from '.prisma/client'
-config()
 
-const JWT_SECRET =
-  process.env.JWT_SECRET ||
-  'rtzPU5Ft+CX1VO0JHqizz7ZL9ABeLWwsqaAxOd8UjJrgefoI3/B1FfzsVTPw/mqGqHd9JnTNZwxnOouoO443BMjKOIoUivQzKdfVnQ4CS5pCJHeW7d9MJIqXCYS+lCcpLFZQ5s6NvXpQ22pFhAx8gzlS7eQb0kg1oF/bTVa0E3YemWuhgRUz3IEHsRPo+1UyIlfuLiurt7OJzXh+vitxHByvJZWAjPOdym8lSSUP64UdMQaD0ultpGzgR6u/qcJzKWu/6fvBScMeSk6Fo8wcR3JKuR56ctPw42RVWkA9mZjBZdka0zaT386APL0p3v6BwJszZr6+hdWAL/YtJ4btAg=='
-const JWT_ALGO = 'HS256'
+import { config } from '../config'
+import { TokenType } from '.prisma/client'
 
 interface LoginInput {
   email: string
@@ -50,8 +45,8 @@ export const loginHandler = async (request: Hapi.Request, h: Hapi.ResponseToolki
 }
 
 const generateJwtToken = (tokenId: number) =>
-  jwt.sign({ tokenId }, JWT_SECRET, {
-    algorithm: JWT_ALGO,
+  jwt.sign({ tokenId }, config.JWT_SECRET, {
+    algorithm: config.JWT_ALGO,
     noTimestamp: true,
   })
 

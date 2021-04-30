@@ -1,7 +1,9 @@
 import Hapi from '@hapi/hapi'
+import hapiAuthJWT from 'hapi-auth-jwt2'
 
 import emailPlugin from './plugins/emailPlugin'
 import prismaPlugin from './plugins/prismaPlugin'
+import authPlugin from './plugins/authPlugin'
 import routes from './routes'
 
 const server = Hapi.server({
@@ -10,7 +12,7 @@ const server = Hapi.server({
 })
 
 export async function createServer(): Promise<Hapi.Server> {
-  await server.register([prismaPlugin, emailPlugin])
+  await server.register([prismaPlugin, emailPlugin, hapiAuthJWT, authPlugin])
   routes.forEach((route) => {
     server.route(route)
   })
