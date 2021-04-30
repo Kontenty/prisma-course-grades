@@ -63,7 +63,16 @@ const routes: Hapi.ServerRoute[] = [
     handler: controller.loginHandler,
     options: {
       auth: false,
-      validate: { payload: vld.emailValidator },
+      validate: { payload: vld.loginValidator },
+    },
+  },
+  {
+    method: 'POST',
+    path: '/authenticate',
+    handler: controller.authenticateHandler,
+    options: {
+      auth: false,
+      validate: { payload: vld.authenticateValidator },
     },
   },
 ]
