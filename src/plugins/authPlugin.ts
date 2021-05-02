@@ -40,7 +40,7 @@ const validateAPIToken = async (
       isValid: true,
       credentials: {
         tokenId,
-        userID: fetchedToken.userId,
+        userId: fetchedToken.userId,
         isAdmin: fetchedToken.user.isAdmin,
         teacherOf: teacherOf.map(({ courseId }) => courseId),
       },

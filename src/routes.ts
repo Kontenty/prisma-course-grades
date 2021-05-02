@@ -1,4 +1,5 @@
 import Hapi from '@hapi/hapi'
+import { isAdminOrSameUser } from './helpers'
 
 import * as controller from './controllers'
 import * as vld from './validators'
@@ -26,6 +27,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}',
     handler: controller.updateUserHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: {
         payload: vld.updateUserValidator,
         params: vld.userIdValidator,
@@ -42,6 +44,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}',
     handler: controller.getUserHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: {
         params: vld.userIdValidator,
       },
