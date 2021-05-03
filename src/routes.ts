@@ -11,6 +11,7 @@ const routes: Hapi.ServerRoute[] = [
     handler: (_, h: Hapi.ResponseToolkit) => {
       return h.response({ up: true }).code(200)
     },
+    options: {auth: false}
   },
   {
     method: 'POST',
@@ -20,6 +21,7 @@ const routes: Hapi.ServerRoute[] = [
       validate: {
         payload: vld.createUserValidator,
       },
+      tags: ['api'],
     },
   },
   {
@@ -32,12 +34,16 @@ const routes: Hapi.ServerRoute[] = [
         payload: vld.updateUserValidator,
         params: vld.userIdValidator,
       },
+      tags: ['api'],
     },
   },
   {
     method: 'GET',
     path: '/users',
     handler: controller.getUsersHandler,
+    options: {
+      tags: ['api'],
+    },
   },
   {
     method: 'GET',
@@ -48,6 +54,7 @@ const routes: Hapi.ServerRoute[] = [
       validate: {
         params: vld.userIdValidator,
       },
+      tags: ['api'],
     },
   },
   {
@@ -58,6 +65,7 @@ const routes: Hapi.ServerRoute[] = [
       validate: {
         params: vld.userIdValidator,
       },
+      tags: ['api'],
     },
   },
   {

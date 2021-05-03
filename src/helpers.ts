@@ -4,8 +4,6 @@ import Boom from '@hapi/boom'
 export const isAdminOrSameUser = (req: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { userId, isAdmin } = req.auth.credentials
 
-  console.log(req.auth)
-
   if (isAdmin) return h.continue
 
   const requestedUserId = parseInt(req.params.userId, 10)

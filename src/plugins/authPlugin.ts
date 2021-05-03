@@ -54,7 +54,7 @@ const validateAPIToken = async (
 const authPlugin: Hapi.Plugin<null> = {
   name: 'app/auth',
   register: async (server: Hapi.Server) => {
-    server.auth.strategy('API', 'jwt', {
+    server.auth.strategy(config.API_AUTH_STATEGY, 'jwt', {
       key: config.JWT_SECRET,
       verifyOptions: { algorithms: [config.JWT_ALGO] },
       validate: validateAPIToken,

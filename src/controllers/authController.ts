@@ -89,7 +89,7 @@ export const authenticateHandler = async (request: Hapi.Request, h: Hapi.Respons
 
       const authToken = generateJwtToken(createdApiToken.id)
 
-      return h.response().code(200).header('Authorization', authToken)
+      return h.response({ token: authToken }).code(200).header('Authorization', authToken)
     } else {
       return Boom.unauthorized()
     }
