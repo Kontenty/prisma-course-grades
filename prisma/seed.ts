@@ -46,8 +46,7 @@ async function main() {
     },
     include: { tests: true },
   })
-  console.log(grace)
-  console.log(course)
+
   const shakuntala = await prisma.user.create({
     data: {
       email: 'devi@prisma.io',

@@ -11,31 +11,7 @@ const routes: Hapi.ServerRoute[] = [
     handler: (_, h: Hapi.ResponseToolkit) => {
       return h.response({ up: true }).code(200)
     },
-    options: {auth: false}
-  },
-  {
-    method: 'POST',
-    path: '/users',
-    handler: controller.createUserHandler,
-    options: {
-      validate: {
-        payload: vld.createUserValidator,
-      },
-      tags: ['api'],
-    },
-  },
-  {
-    method: 'PUT',
-    path: '/user/{userId}',
-    handler: controller.updateUserHandler,
-    options: {
-      pre: [isAdminOrSameUser],
-      validate: {
-        payload: vld.updateUserValidator,
-        params: vld.userIdValidator,
-      },
-      tags: ['api'],
-    },
+    options: { auth: false },
   },
   {
     method: 'GET',
@@ -58,6 +34,30 @@ const routes: Hapi.ServerRoute[] = [
     },
   },
   {
+    method: 'POST',
+    path: '/user',
+    handler: controller.createUserHandler,
+    options: {
+      validate: {
+        payload: vld.createUserValidator,
+      },
+      tags: ['api'],
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/user/{userId}',
+    handler: controller.updateUserHandler,
+    options: {
+      pre: [isAdminOrSameUser],
+      validate: {
+        payload: vld.updateUserValidator,
+        params: vld.userIdValidator,
+      },
+      tags: ['api'],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/user/{userId}',
     handler: controller.deleteUserHandler,
@@ -67,6 +67,22 @@ const routes: Hapi.ServerRoute[] = [
       },
       tags: ['api'],
     },
+  },
+  {
+    method: 'GET',
+    path: '/user/{userId}/courses',
+    handler: controller.getUserEnrollmentHandler,
+    options: { auth: false },
+  },
+  {
+    method: 'POST',
+    path: '/user/{userId}/courses',
+    handler: controller.createUserEnrollmentHandler,
+  },
+  {
+    method: 'DELETE',
+    path: '/user/{userId}/courses/{courseId}',
+    handler: controller.deleteUserEnrollmentHandler,
   },
   {
     method: 'POST',
