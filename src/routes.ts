@@ -72,17 +72,25 @@ const routes: Hapi.ServerRoute[] = [
     method: 'GET',
     path: '/user/{userId}/courses',
     handler: controller.getUserEnrollmentHandler,
-    options: { auth: false },
+    options: {
+      validate: { params: vld.userIdValidator },
+    },
   },
   {
     method: 'POST',
-    path: '/user/{userId}/courses',
+    path: '/user/{userId}/courses/{courseId}',
     handler: controller.createUserEnrollmentHandler,
+    options: {
+      validate: { params: vld.userCourseValidator },
+    },
   },
   {
     method: 'DELETE',
     path: '/user/{userId}/courses/{courseId}',
     handler: controller.deleteUserEnrollmentHandler,
+    options: {
+      validate: { params: vld.userCourseValidator },
+    },
   },
   {
     method: 'POST',
