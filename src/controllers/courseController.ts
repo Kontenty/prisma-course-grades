@@ -98,7 +98,7 @@ export const deleteCourseHandler = async (request: Hapi.Request, h: Hapi.Respons
 
   if (typeof courseId === 'number') {
     try {
-      const course = await prisma.$transaction([
+      await prisma.$transaction([
         prisma.courseEnrollment.deleteMany({
           where: { courseId },
         }),
