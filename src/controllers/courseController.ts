@@ -29,7 +29,7 @@ export const getCoursesHandler = async (request: Hapi.Request) => {
   const { prisma } = request.server.app
 
   try {
-    const courses = prisma.course.findMany()
+    const courses = await prisma.course.findMany()
     return courses
   } catch (error) {
     console.log(error)
@@ -42,14 +42,14 @@ interface CourseInput {
   courseDetails: string
 }
 
-export const createCoursesHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+export const createCourseHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { prisma } = request.server.app
   const { name, courseDetails } = request.payload as CourseInput
   const { userId } = request.auth.credentials
 
   if (typeof userId === 'number') {
     try {
-      const newCourse = prisma.course.create({
+      const newCourse = await prisma.course.create({
         data: {
           name,
           courseDetails,
@@ -70,18 +70,44 @@ export const createCoursesHandler = async (request: Hapi.Request, h: Hapi.Respon
     return Boom.badRequest('user id has to be number')
   }
 }
-export const updateCoursesHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+
+export const updateCourseHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { prisma } = request.server.app
   const payload = request.payload as Partial<CourseInput>
   const courseId = parseInt(request.params.courseId, 10)
 
   if (typeof courseId === 'number') {
     try {
-      const course = prisma.course.update({
+      const course = await prisma.course.update({
         where: { id: courseId },
         data: payload,
       })
-      return h.response(course).code(201)
+      return h.response(course).code(200)
+    } catch (error) {
+      console.log(error)
+      return Boom.boomify(error, { statusCode: 500 })
+    }
+  } else {
+    return Boom.badRequest('course id has to be number')
+  }
+}
+
+export const deleteCourseHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+  const { prisma } = request.server.app
+  const courseId = parseInt(request.params.courseId, 10)
+
+  if (typeof courseId === 'number') {
+    try {
+      const course = await prisma.$transaction([
+        prisma.courseEnrollment.deleteMany({
+          where: { courseId },
+        }),
+        prisma.course.delete({
+          where: { id: courseId },
+        }),
+      ])
+
+      return h.response({ deleted: courseId }).code(200)
     } catch (error) {
       console.log(error)
       return Boom.boomify(error, { statusCode: 500 })

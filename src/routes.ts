@@ -108,7 +108,7 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'POST',
     path: '/courses',
-    handler: controller.createCoursesHandler,
+    handler: controller.createCourseHandler,
     options: {
       validate: { payload: vld.createCourseValidator },
     },
@@ -116,9 +116,17 @@ const routes: Hapi.ServerRoute[] = [
   {
     method: 'PUT',
     path: '/courses/{courseId}',
-    handler: controller.createCoursesHandler,
+    handler: controller.updateCourseHandler,
     options: {
       validate: { payload: vld.updateCourseValidator },
+    },
+  },
+  {
+    method: 'DELETE',
+    path: '/courses/{courseId}',
+    handler: controller.deleteCourseHandler,
+    options: {
+      validate: { params: vld.courseIdValidator },
     },
   },
   {
