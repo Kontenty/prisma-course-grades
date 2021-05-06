@@ -61,9 +61,6 @@ export const updateUserHandler = async (request: Hapi.Request, h: Hapi.ResponseT
         email: payload.email,
         social: JSON.stringify(payload.social),
       },
-      select: {
-        id: true,
-      },
     })
     return h.response(user).code(200)
   } catch (error) {
@@ -94,11 +91,24 @@ export const deleteUserHandler = async (request: Hapi.Request, h: Hapi.ResponseT
   const userId = parseInt(request.params.userId, 10)
 
   try {
-    await prisma.user.delete({
+    const user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
     })
+    if (!user) return h.response('user not found').code(404)
+
+    await prisma.$transaction([
+      prisma.token.deleteMany({
+        where: { userId },
+      }),
+      prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      }),
+    ])
+
     return h.response('deleted').code(204)
   } catch (error) {
     console.log(error)

@@ -81,8 +81,10 @@ export const updateTestHandler = async (request: Hapi.Request, h: Hapi.ResponseT
       data: payload,
     })
     return h.response(updatedTest).code(200)
-  } catch (err) {
-    request.log('error', err)
-    return Boom.badImplementation('failed to update test')
+  } catch (error) {
+    request.log('error', error)
+    return error?.code === 'P2025'
+      ? Boom.notFound('test not found')
+      : Boom.badImplementation('failed to update test')
   }
 }

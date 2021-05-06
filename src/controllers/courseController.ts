@@ -85,7 +85,9 @@ export const updateCourseHandler = async (request: Hapi.Request, h: Hapi.Respons
       return h.response(course).code(200)
     } catch (error) {
       console.log(error)
-      return Boom.boomify(error, { statusCode: 500 })
+      return error?.code === 'P2025'
+        ? Boom.notFound('course not found')
+        : Boom.boomify(error, { statusCode: 500 })
     }
   } else {
     return Boom.badRequest('course id has to be number')
@@ -98,6 +100,14 @@ export const deleteCourseHandler = async (request: Hapi.Request, h: Hapi.Respons
 
   if (typeof courseId === 'number') {
     try {
+      const course = await prisma.course.findUnique({
+        where: {
+          id: courseId,
+        },
+      })
+      if (!course) {
+        return h.response('course not found').code(404)
+      }
       await prisma.$transaction([
         prisma.courseEnrollment.deleteMany({
           where: { courseId },
