@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import { add } from 'date-fns'
 import { AuthCredentials } from '@hapi/hapi'
 
-import { config } from '../src/config'
+import config from '../src/config'
 
 export const createUserCredentials = async (prisma: PrismaClient, isAdmin: boolean) => {
   const testUser = await prisma.user.create({
@@ -24,4 +24,14 @@ export const createUserCredentials = async (prisma: PrismaClient, isAdmin: boole
     tokenId: testUser.tokens[0].id,
     isAdmin: testUser.isAdmin,
   }
+}
+
+export const createCourse = async (prisma: PrismaClient): Promise<number> => {
+  const course = await prisma.course.create({
+    data: {
+      name: `test-course-${Date.now().toString()}`,
+      courseDetails: `test-course-${Date.now().toString()}-details`,
+    },
+  })
+  return course.id
 }

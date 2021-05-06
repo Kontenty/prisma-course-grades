@@ -62,6 +62,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}',
     handler: controller.deleteUserHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: {
         params: vld.userIdValidator,
       },
@@ -73,6 +74,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}/courses',
     handler: controller.getUserEnrollmentHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: { params: vld.userIdValidator },
     },
   },
@@ -81,6 +83,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}/courses/{courseId}',
     handler: controller.createUserEnrollmentHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: { params: vld.userCourseValidator },
     },
   },
@@ -89,6 +92,7 @@ const routes: Hapi.ServerRoute[] = [
     path: '/user/{userId}/courses/{courseId}',
     handler: controller.deleteUserEnrollmentHandler,
     options: {
+      pre: [isAdminOrSameUser],
       validate: { params: vld.userCourseValidator },
     },
   },

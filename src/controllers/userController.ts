@@ -2,8 +2,8 @@ import Hapi from '@hapi/hapi'
 import Boom from '@hapi/boom'
 
 interface UserInput {
-  firstName: string
-  lastName: string
+  first_name: string
+  last_name: string
   email: string
   social: {
     facebook?: string
@@ -32,8 +32,8 @@ export const createUserHandler = async (request: Hapi.Request, h: Hapi.ResponseT
   try {
     const createdUser = await prisma.user.create({
       data: {
-        first_name: payload.firstName,
-        last_name: payload.lastName,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
         email: payload.email,
         social: JSON.stringify(payload.social),
       },
@@ -56,8 +56,8 @@ export const updateUserHandler = async (request: Hapi.Request, h: Hapi.ResponseT
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        first_name: payload.firstName,
-        last_name: payload.lastName,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
         email: payload.email,
         social: JSON.stringify(payload.social),
       },

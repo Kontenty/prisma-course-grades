@@ -1,7 +1,7 @@
 import { createServer } from '../src/server'
 import Hapi, { AuthCredentials } from '@hapi/hapi'
 import { createUserCredentials } from './test-helpers'
-import { config } from '../src/config'
+import config from '../src/config'
 
 describe('courses endpoint', () => {
   let server: Hapi.Server

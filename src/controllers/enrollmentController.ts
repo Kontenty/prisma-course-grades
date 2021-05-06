@@ -1,16 +1,24 @@
 import Hapi from '@hapi/hapi'
 import Boom from '@hapi/boom'
 
-export const getUserEnrollmentHandler = async (request: Hapi.Request) => {
+export const getUserEnrollmentHandler = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
   const { prisma } = request.server.app
   const userId = parseInt(request.params.userId, 10)
 
   try {
-    const users = prisma.courseEnrollment.findMany({
-      where: { userId },
-      include: { course: true },
+    const userCourses = await prisma.course.findMany({
+      where: {
+        members: {
+          some: { userId },
+        },
+      },
+      include: {
+        members: {
+          where: { userId },
+        },
+      },
     })
-    return users
+    return h.response(userCourses).code(200)
   } catch (error) {
     console.log(error)
     return Boom.boomify(error, { statusCode: 500 })

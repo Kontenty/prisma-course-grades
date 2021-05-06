@@ -1,11 +1,11 @@
 import Joi from 'joi'
 
 const userInputValidator = Joi.object({
-  firstName: Joi.string().alter({
+  first_name: Joi.string().alter({
     create: (schema) => schema.required(),
     update: (schema) => schema.optional(),
   }),
-  lastName: Joi.string().alter({
+  last_name: Joi.string().alter({
     create: (schema) => schema.required(),
     update: (schema) => schema.optional(),
   }),

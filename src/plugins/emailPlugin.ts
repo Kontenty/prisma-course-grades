@@ -2,10 +2,10 @@ import Hapi from '@hapi/hapi'
 import Joi from 'joi'
 import Boom from '@hapi/boom'
 import sendgrid from '@sendgrid/mail'
-import { config } from 'dotenv'
-config()
 
-const { SENDGRID_API_KEY, SENDGRID_EMAIL } = process.env
+import config from '../config'
+
+const { SENDGRID_API_KEY, SENDGRID_EMAIL } = config
 
 declare module '@hapi/hapi' {
   interface ServerApplicationState {

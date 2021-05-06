@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import { nanoid } from 'nanoid'
 import { add } from 'date-fns'
 
-import { config } from '../config'
+import config from '../config'
 import { TokenType } from '.prisma/client'
 
 interface LoginInput {

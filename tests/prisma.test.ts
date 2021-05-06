@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-describe('example test with Prisma Client', () => {
+describe('Prisma Client', () => {
   let prisma = new PrismaClient()
 
   beforeAll(async () => {
