@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi'
-import { isAdminOrSameUser, isAdminOrCourseTeacher } from './helpers'
+import { isAdminOrSameUser, isAdminOrCourseTeacher, isAdminOrTestTeacher } from './helpers'
 
 import * as controller from './controllers'
 import * as vld from './validators'
@@ -137,7 +137,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'GET',
-    path: '/tests/{testId}',
+    path: '/courses/tests/{testId}',
     handler: controller.getTestHandler,
     options: {
       validate: { params: vld.testIdValidator },
@@ -145,7 +145,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'POST',
-    path: '/tests',
+    path: '/courses/{courseId}/tests',
     handler: controller.createTestHandler,
     options: {
       pre: [isAdminOrCourseTeacher],
@@ -154,19 +154,19 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'PUT',
-    path: '/tests/{testId}',
+    path: '/courses/tests/{testId}',
     handler: controller.updateTestHandler,
     options: {
-      pre: [isAdminOrCourseTeacher],
+      pre: [isAdminOrTestTeacher],
       validate: { payload: vld.updateTestValidator },
     },
   },
   {
     method: 'DELETE',
-    path: '/tests/{testId}',
+    path: '/courses/tests/{testId}',
     handler: controller.deleteTestHandler,
     options: {
-      pre: [isAdminOrCourseTeacher],
+      pre: [isAdminOrTestTeacher],
       validate: { params: vld.testIdValidator },
     },
   },

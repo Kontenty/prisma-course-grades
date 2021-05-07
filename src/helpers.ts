@@ -28,3 +28,40 @@ export const isAdminOrCourseTeacher = (req: Hapi.Request, h: Hapi.ResponseToolki
 
   throw Boom.forbidden()
 }
+
+// Pre function to check if user is the teacher of a test's course
+export const isAdminOrTestTeacher = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+  const { isAdmin, teacherOf } = request.auth.credentials
+
+  if (isAdmin) {
+    // If the user is an admin allow
+    return h.continue
+  }
+
+  const testId = parseInt(request.params.testId, 10)
+  const { prisma } = request.server.app
+
+  try {
+    const test = await prisma.test.findUnique({
+      where: {
+        id: testId,
+      },
+      select: {
+        course: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+
+    if (test?.course.id && Array.isArray(teacherOf) && teacherOf.includes(test?.course.id)) {
+      return h.continue
+    }
+  } catch (err) {
+    console.log(err)
+  }
+
+  // The authenticated user is not a teacher
+  throw Boom.forbidden()
+}
