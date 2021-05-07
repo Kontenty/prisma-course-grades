@@ -35,7 +35,7 @@ describe('user enrollment endpoint', () => {
   test('user can enroll to course', async () => {
     const response = await server.inject({
       method: 'POST',
-      url: `/user/${studentId}/courses/${courseId}`,
+      url: `/users/${studentId}/courses/${courseId}`,
       auth: {
         strategy: API_AUTH_STATEGY,
         credentials: testUserCredentials,
@@ -55,7 +55,7 @@ describe('user enrollment endpoint', () => {
   test('get user courses', async () => {
     const response = await server.inject({
       method: 'GET',
-      url: `/user/${studentId}/courses`,
+      url: `/users/${studentId}/courses`,
       auth: {
         strategy: API_AUTH_STATEGY,
         credentials: testUserCredentials,
@@ -69,7 +69,7 @@ describe('user enrollment endpoint', () => {
   test('delete user enrollment in course', async () => {
     const response = await server.inject({
       method: 'DELETE',
-      url: `/user/${studentId}/courses/${courseId}`,
+      url: `/users/${studentId}/courses/${courseId}`,
       auth: {
         strategy: API_AUTH_STATEGY,
         credentials: testUserCredentials,
@@ -81,7 +81,7 @@ describe('user enrollment endpoint', () => {
   test('get user courses is empty after deletion', async () => {
     const response = await server.inject({
       method: 'GET',
-      url: `/user/${studentId}/courses`,
+      url: `/users/${studentId}/courses`,
       auth: {
         strategy: API_AUTH_STATEGY,
         credentials: testUserCredentials,

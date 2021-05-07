@@ -28,7 +28,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'GET',
-    path: '/user/{userId}',
+    path: '/users/{userId}',
     handler: controller.getUserHandler,
     options: {
       pre: [isAdminOrSameUser],
@@ -51,7 +51,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'PUT',
-    path: '/user/{userId}',
+    path: '/users/{userId}',
     handler: controller.updateUserHandler,
     options: {
       pre: [isAdminOrSameUser],
@@ -64,7 +64,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'DELETE',
-    path: '/user/{userId}',
+    path: '/users/{userId}',
     handler: controller.deleteUserHandler,
     options: {
       pre: [isAdminOrSameUser],
@@ -76,7 +76,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'GET',
-    path: '/user/{userId}/courses',
+    path: '/users/{userId}/courses',
     handler: controller.getUserEnrollmentHandler,
     options: {
       pre: [isAdminOrSameUser],
@@ -85,7 +85,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'POST',
-    path: '/user/{userId}/courses/{courseId}',
+    path: '/users/{userId}/courses/{courseId}',
     handler: controller.createUserEnrollmentHandler,
     options: {
       pre: [isAdminOrSameUser],
@@ -94,7 +94,7 @@ const routes: Hapi.ServerRoute[] = [
   },
   {
     method: 'DELETE',
-    path: '/user/{userId}/courses/{courseId}',
+    path: '/users/{userId}/courses/{courseId}',
     handler: controller.deleteUserEnrollmentHandler,
     options: {
       pre: [isAdminOrSameUser],

@@ -66,7 +66,7 @@ describe('users endpoint', () => {
   test('get user returns user', async () => {
     const response = await server.inject({
       method: 'GET',
-      url: `/user/${userId}`,
+      url: `/users/${userId}`,
       auth: {
         strategy: config.API_AUTH_STATEGY,
         credentials: testAdminCredentials,
@@ -96,7 +96,7 @@ describe('users endpoint', () => {
   test('delete user fails with invalid userId parameter', async () => {
     const response = await server.inject({
       method: 'DELETE',
-      url: `/user/aa22`,
+      url: `/users/aa22`,
       auth: {
         strategy: config.API_AUTH_STATEGY,
         credentials: testAdminCredentials,
@@ -108,7 +108,7 @@ describe('users endpoint', () => {
   test('delete user', async () => {
     const response = await server.inject({
       method: 'DELETE',
-      url: `/user/${userId}`,
+      url: `/users/${userId}`,
       auth: {
         strategy: config.API_AUTH_STATEGY,
         credentials: testAdminCredentials,
@@ -120,7 +120,7 @@ describe('users endpoint', () => {
   test('user should update his data', async () => {
     const response = await server.inject({
       method: 'PUT',
-      url: `/user/${testUserCredentials.userId}`,
+      url: `/users/${testUserCredentials.userId}`,
       auth: { strategy: config.API_AUTH_STATEGY, credentials: testUserCredentials },
       payload: {
         first_name: 'Lorem',
@@ -136,7 +136,7 @@ describe('users endpoint', () => {
   test('user can not update other user data', async () => {
     const response = await server.inject({
       method: 'PUT',
-      url: `/user/${secondUserCredentials.userId}`,
+      url: `/users/${secondUserCredentials.userId}`,
       auth: { strategy: config.API_AUTH_STATEGY, credentials: testUserCredentials },
       payload: {
         first_name: 'Lorem',
