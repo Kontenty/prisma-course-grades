@@ -30,10 +30,12 @@ export const updateUserValidator = userInputValidator.tailor('update')
 const userId = Joi.number().integer()
 const testId = Joi.number().integer()
 const courseId = Joi.number().integer()
+const testResultId = Joi.number().integer()
 export const userIdValidator = Joi.object({ userId })
 export const courseIdValidator = Joi.object({ courseId })
 export const userCourseValidator = Joi.object({ userId, courseId })
 export const testIdValidator = Joi.object({ testId })
+export const testResultIdValidator = Joi.object({ testResultId })
 
 const email = Joi.string().email().required()
 
@@ -67,3 +69,22 @@ const testInputValidator = Joi.object({
 
 export const createTestValidator = testInputValidator.tailor('create')
 export const updateTestValidator = testInputValidator.tailor('update')
+
+const testResultInputValidator = Joi.object({
+  result: Joi.number().integer().sign('positive').max(1000).required(),
+  studentId: Joi.number()
+    .integer()
+    .alter({
+      create: (schema) => schema.required(),
+      update: (schema) => schema.forbidden(),
+    }),
+  graderId: Joi.number()
+    .integer()
+    .alter({
+      create: (schema) => schema.required(),
+      update: (schema) => schema.forbidden(),
+    }),
+})
+
+export const createTestResultValidator = testResultInputValidator.tailor('create')
+export const updateTestResultValidator = testResultInputValidator.tailor('update')

@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import { add } from 'date-fns'
 
 import config from '../config'
-import { TokenType } from '.prisma/client'
+import { TokenType } from '@prisma/client'
 
 interface LoginInput {
   email: string

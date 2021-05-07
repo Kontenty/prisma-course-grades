@@ -15,7 +15,7 @@ export const isAdminOrSameUser = (req: Hapi.Request, h: Hapi.ResponseToolkit) =>
 
 type Credentials = {
   isAdmin: boolean
-  teacherOf: number[]
+  teacherOf?: number[]
 }
 
 export const isAdminOrCourseTeacher = (req: Hapi.Request, h: Hapi.ResponseToolkit) => {
@@ -24,19 +24,16 @@ export const isAdminOrCourseTeacher = (req: Hapi.Request, h: Hapi.ResponseToolki
 
   const courseId = parseInt(req.params.courseId, 10)
 
-  if (teacherOf?.includes(courseId)) return h.continue
+  if (teacherOf && teacherOf?.includes(courseId)) return h.continue
 
   throw Boom.forbidden()
 }
 
 // Pre function to check if user is the teacher of a test's course
 export const isAdminOrTestTeacher = async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-  const { isAdmin, teacherOf } = request.auth.credentials
+  const { isAdmin, teacherOf } = request.auth.credentials as Credentials
 
-  if (isAdmin) {
-    // If the user is an admin allow
-    return h.continue
-  }
+  if (isAdmin) return h.continue
 
   const testId = parseInt(request.params.testId, 10)
   const { prisma } = request.server.app
@@ -55,13 +52,38 @@ export const isAdminOrTestTeacher = async (request: Hapi.Request, h: Hapi.Respon
       },
     })
 
-    if (test?.course.id && Array.isArray(teacherOf) && teacherOf.includes(test?.course.id)) {
+    if (test?.course.id && teacherOf && teacherOf.includes(test?.course.id)) {
       return h.continue
     }
   } catch (err) {
     console.log(err)
   }
 
+  // The authenticated user is not a teacher
+  throw Boom.forbidden()
+}
+
+// Pre function to check if authenticated user is the grader of a testResult
+export const isAdminOrGraderOfTestResult = async (
+  request: Hapi.Request,
+  h: Hapi.ResponseToolkit,
+) => {
+  const { userId, isAdmin, teacherOf } = request.auth.credentials
+
+  if (isAdmin) return h.continue
+
+  const testResultId = parseInt(request.params.testResultId, 10)
+  const { prisma } = request.server.app
+
+  const testResult = await prisma.testResult.findUnique({
+    where: {
+      id: testResultId,
+    },
+  })
+
+  if (testResult?.graderId === userId) {
+    return h.continue
+  }
   // The authenticated user is not a teacher
   throw Boom.forbidden()
 }
