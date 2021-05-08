@@ -27,10 +27,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
-      - run: npm ci
+          node-version: '14'
+      - run: npm install
+      - run: npm build
       # run the migration in the test database
       - run: npm run migrate:up
       - run: npm run test
