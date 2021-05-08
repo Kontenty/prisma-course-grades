@@ -9,11 +9,11 @@ jobs:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres
+        image: postgres:12-alpine
         # Provide the password for postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -23,7 +23,7 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/grading-app
+      DATABASE_URL: postgresql://root:root@localhost:5432/grading
 
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm install
-      - run: npm build
+      - run: npm run build
       # run the migration in the test database
       - run: npm run db:push
       - run: npm run test

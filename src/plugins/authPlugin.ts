@@ -1,6 +1,6 @@
 import { UserRole } from '@prisma/client'
 import Hapi from '@hapi/hapi'
-import Joi from 'Joi'
+import Joi from 'joi'
 import config from '../config'
 
 const apiTokenSchema = Joi.object({
