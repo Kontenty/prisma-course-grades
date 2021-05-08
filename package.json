@@ -38,9 +38,7 @@
     "seed": "ts-node ./prisma/seed.ts",
     "test": "jest",
     "db:push": "prisma db push --preview-feature",
-    "postgres:start": "docker-compose up -d",
-    "migrate:save": "prisma migrate --experimental save",
-    "migrate:up": "prisma migrate --experimental up --auto-approve --create-db",
+    "db:start": "docker-compose up -d",
     "prisma:generate": "prisma generate"
   },
   "engines": {

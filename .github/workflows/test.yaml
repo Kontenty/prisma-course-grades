@@ -33,5 +33,5 @@ jobs:
       - run: npm install
       - run: npm build
       # run the migration in the test database
-      - run: npm run migrate:up
+      - run: npm run db:push
       - run: npm run test
