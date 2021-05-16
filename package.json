@@ -40,7 +40,8 @@
     "check": "tsc --noEmit",
     "db:push": "prisma db push --preview-feature",
     "db:start": "docker-compose up -d",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "migrate:deploy": "prisma migrate deploy"
   },
   "engines": {
     "node": ">=14"

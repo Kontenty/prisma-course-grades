@@ -1,4 +1,4 @@
-name: test-grading-app
+name: CI
 on: push
 
 jobs:
@@ -30,7 +30,23 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run db:push
       - run: npm run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - name: Production migration
+        run: npm run migrate:deploy
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'grading-system-api' #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
