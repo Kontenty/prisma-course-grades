@@ -6,10 +6,11 @@ import prismaPlugin from './plugins/prismaPlugin'
 import authPlugin from './plugins/authPlugin'
 import swaggerPlugin from './plugins/swaggerPlugin'
 import routes from './routes'
+import { HOST, PORT } from './config'
 
 const server = Hapi.server({
-  port: process.env.PORT || 5000,
-  host: process.env.HOST || 'localhost',
+  port: PORT,
+  host: HOST,
 })
 
 export async function createServer(): Promise<Hapi.Server> {
