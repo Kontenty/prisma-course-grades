@@ -35,7 +35,7 @@ export const loginHandler = async (request: Hapi.Request, h: Hapi.ResponseToolki
       },
     })
 
-    // await sendEmailToken(email, emailToken)
+    await sendEmailToken(email, emailToken)
 
     return h.response(createdToken).code(200)
   } catch (error) {

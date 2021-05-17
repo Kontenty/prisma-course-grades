@@ -15,6 +15,5 @@ export async function start(): Promise<Hapi.Server> {
   server.route(routes)
   await server.start()
   console.log(`Server running on ${server.info.uri}`)
-  console.log(process.env)
   return server
 }
