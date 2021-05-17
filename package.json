@@ -1,7 +1,14 @@
 {
-  "name": "prisma-class",
+  "name": "grading",
+  "description": "grading system backend app made with prisma",
   "version": "1.0.0",
   "license": "MIT",
+  "author": "Konrad Gorski",
+  "keywords": [
+    "prisma",
+    "postgresql",
+    "hapi"
+  ],
   "dependencies": {
     "@hapi/boom": "^9.1.2",
     "@hapi/hapi": "^20.1.2",
@@ -44,6 +51,7 @@
     "migrate:deploy": "prisma migrate deploy"
   },
   "engines": {
-    "node": ">=14"
+    "node": "14.x",
+    "npm": "7.x"
   }
 }
