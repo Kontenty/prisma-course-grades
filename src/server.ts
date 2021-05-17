@@ -8,28 +8,15 @@ import swaggerPlugin from './plugins/swaggerPlugin'
 import routes from './routes'
 import { HOST, PORT } from './config'
 
-const server = Hapi.server({
-  port: PORT,
-  host: HOST,
-})
-
-export async function createServer(): Promise<Hapi.Server> {
-  await server.register([prismaPlugin, emailPlugin, hapiAuthJWT, authPlugin, swaggerPlugin])
-  routes.forEach((route) => {
-    server.route(route)
+export async function start(): Promise<Hapi.Server> {
+  const server = Hapi.server({
+    port: PORT,
+    host: HOST,
   })
-  await server.initialize()
-
-  return server
-}
-
-export async function startServer(server: Hapi.Server): Promise<Hapi.Server> {
+  await server.register([prismaPlugin, emailPlugin, hapiAuthJWT, authPlugin, swaggerPlugin])
+  server.route(routes)
+  // await server.initialize()
   await server.start()
   console.log(`Server running on ${server.info.uri}`)
   return server
 }
-
-process.on('unhandledRejection', (err) => {
-  console.log(err)
-  process.exit(1)
-})

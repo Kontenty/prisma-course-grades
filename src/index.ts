@@ -1,7 +1,10 @@
-import { createServer, startServer } from './server'
+import { start } from './server'
 
-createServer()
-  .then(startServer)
-  .catch((err) => {
-    console.log(err)
-  })
+process.on('unhandledRejection', (err) => {
+  console.log(err)
+  process.exit(1)
+})
+
+start().catch((err) => {
+  console.log(err)
+})
