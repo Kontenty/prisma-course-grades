@@ -6,12 +6,11 @@ import prismaPlugin from './plugins/prismaPlugin'
 import authPlugin from './plugins/authPlugin'
 import swaggerPlugin from './plugins/swaggerPlugin'
 import routes from './routes'
-import { HOST, PORT } from './config'
 
 export async function start(): Promise<Hapi.Server> {
   const server = Hapi.server({
-    port: PORT,
-    host: HOST,
+    port: process.env.PORT || 5000,
+    host: 'localhost',
   })
   await server.register([prismaPlugin, emailPlugin, hapiAuthJWT, authPlugin, swaggerPlugin])
   server.route(routes)
