@@ -10,12 +10,11 @@ import routes from './routes'
 export async function start(): Promise<Hapi.Server> {
   const server = Hapi.server({
     port: process.env.PORT || 5000,
-    host: 'localhost',
   })
   await server.register([prismaPlugin, emailPlugin, hapiAuthJWT, authPlugin, swaggerPlugin])
   server.route(routes)
-  // await server.initialize()
   await server.start()
   console.log(`Server running on ${server.info.uri}`)
+  console.log(process.env)
   return server
 }
