@@ -26,6 +26,12 @@ The database schema will be created by Prisma Migrate.
 
 ## How to use
 
+ALunch database:
+
+```
+docker compose up --build
+```
+
 Install npm dependencies:
 
 ```
